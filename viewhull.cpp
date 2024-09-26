@@ -83,7 +83,7 @@ const int WINDOWSIZE = 500;
    user can cycle through them by pressing 'i'. Check out the display()
    function.
 */
-int NB_INIT_CHOICES = 6; 
+int NB_INIT_CHOICES = 10; 
 int  POINT_INIT_MODE = 0; //the first inititalizer
 
 
@@ -118,14 +118,20 @@ void initialize_points_random(vector<point2d>&pts, int n) ;
 void initialize_points_cross(vector<point2d>&pts, int n) ;
 void initialize_points_thin_cross(vector<point2d>&pts, int n);
 void initialize_points_triangle(vector<point2d>&pts, int n);
+void initialize_points_1(vector<point2d>&pts, int n);
+void initialize_points_2(vector<point2d>&pts, int n);
+void initialize_points_two_vertical(vector<point2d>&pts, int n);
+void initialize_points_vertical_line(vector<point2d>&pts, int n);
 
 //you'll add more 
 
 
 /********************************************************************/
 
-
-
+/* ****************************** */
+/* Initializes pts on a vertical line splitting the window in half and a horizontal line splitting the window in half.
+   Made by Max and Abhi
+*/ 
 void initialize_points_thin_cross(vector<point2d>&pts, int n) {
 
   printf("\ninitialize points thin cross\n");
@@ -150,6 +156,10 @@ void initialize_points_thin_cross(vector<point2d>&pts, int n) {
 
 }
 
+/* ****************************** */
+/* Initializes 3 pts in a triangle. The rest of the pts are distributed randomly within the triangle.
+   Made by Max and Abhi
+*/ 
 void initialize_points_triangle(vector<point2d>&pts, int n) {
   printf("\ninitialize points triangle\n");
 
@@ -189,6 +199,132 @@ void initialize_points_triangle(vector<point2d>&pts, int n) {
 
 }
 
+/* ****************************** */
+/* Initializes pts in the shape of the number "1"
+   Made by Tom
+*/ 
+void initialize_points_1(vector<point2d>&pts, int n){
+  printf("\ninitialize points 1\n"); 
+  pts.clear();
+  assert(pts.size() == 0);
+
+  point2d p;
+  int pos, pos2;
+  for (int i = 0; i < n; i++)
+  {
+    switch (i % 7) {
+      case 0:
+      case 1:
+        // Base
+        p.y = random() % (int)(.1*WINDOWSIZE);
+        p.y += (int) (0.15 * WINDOWSIZE);
+        p.x = random() % (int)(0.3*WINDOWSIZE);
+        p.x += (int) (0.35 * WINDOWSIZE);
+        break;
+      case 2:
+        pos = random() % (int) (0.1*WINDOWSIZE);
+        p.x = pos; p.y = pos;
+        p.x += (int) (0.4 * WINDOWSIZE);
+        p.y += (int) (0.7*WINDOWSIZE);
+        pos2 = random() % (int) (0.05*WINDOWSIZE);
+        p.x -= pos2;
+        p.y += pos2;
+        break;
+      case 3:
+        // Colinear case
+        p.x = (int)(0.25*WINDOWSIZE) + random() % ((int)(0.5*WINDOWSIZE));
+        p.y = (int) (0.10*WINDOWSIZE);
+        break;
+      default:
+        //stem
+        p.y = (int) (0.25*WINDOWSIZE);
+        p.y += random() % (int) (0.6*WINDOWSIZE);
+        p.x = (int) (0.45*WINDOWSIZE);
+        p.x += random() % (int) (0.1*WINDOWSIZE);
+        break;
+    }
+    pts.push_back(p);
+  }
+}
+
+/* ****************************** */
+/* Initializes pts in the shape of the number "2"
+   Made by Tom
+*/ 
+void initialize_points_2(vector<point2d>&pts, int n){
+  printf("\ninitialize points 2\n"); 
+  pts.clear();
+  assert(pts.size() == 0);
+
+  point2d p;
+  int x_noise, y_noise;
+  int pos, pos2;
+  for (int i = 0; i < n; i++)
+  {
+    switch (i % 3) {
+      case 0:
+        p.x = (int)(0.25*WINDOWSIZE) + random() % ((int)(0.5*WINDOWSIZE));
+        p.y = (int) (0.15*WINDOWSIZE);
+        break;
+      case 1:
+        pos = random() % (int)(0.5*WINDOWSIZE);
+        p.x = pos; p.y = pos;
+        p.x += (int) (0.25*WINDOWSIZE);
+        p.y += (int) (0.15*WINDOWSIZE);
+        break;
+      case 2: 
+        pos2 = random() % 180;
+        p.x = (int)(0.5 * WINDOWSIZE) + (int) ((0.25*WINDOWSIZE) * cos((M_PI * pos2)/180));
+        p.y = (int)(0.65 * WINDOWSIZE) + (int) ((0.25*WINDOWSIZE) * sin((M_PI * pos2)/180));
+        break;
+    }
+    x_noise = random() % ((int) (0.05*WINDOWSIZE));
+    y_noise = random() % ((int) (0.05*WINDOWSIZE));
+    p.x += x_noise;
+    p.y += y_noise;
+    pts.push_back(p);
+  }
+}
+
+/* ****************************** */
+/* Initializes pts on two vertical lines
+   Made by Ziyou and Victoria
+*/ 
+void initialize_points_two_vertical(vector<point2d>& pts, int n) {
+  
+  printf("\ninitialize points that make two vertical lines.\n"); 
+    //clear the vector just to be safe 
+  pts.clear(); 
+  
+  point2d p; 
+  for (int i=0; i<n/2; i++) {
+    p.y = (int)(.3*WINDOWSIZE)/2 + random() % ((int)(.7*WINDOWSIZE)); 
+    p.x =  WINDOWSIZE/2; 
+    pts.push_back(p); 
+  }
+    for (int i=0; i<n/2; i++) {
+    p.y = (int)(.3*WINDOWSIZE)/2 + random() % ((int)(.7*WINDOWSIZE)); 
+    p.x =  WINDOWSIZE/4; 
+    pts.push_back(p); 
+  }
+}
+
+/* ****************************** */
+/* Initializes pts on a vertical line
+   Made by Ziyou and Victoria
+*/ 
+void initialize_points_vertical_line(vector<point2d>&pts, int n){
+    printf("\ninitialize points line\n"); 
+  //clear the vector just to be safe 
+  pts.clear(); 
+  
+  point2d p; 
+  for (int i=0; i<n; i++) {
+    p.y = (int)(.3*WINDOWSIZE)/2 + random() % ((int)(.7*WINDOWSIZE)); 
+    p.x =  WINDOWSIZE/2; 
+    pts.push_back(p); 
+  }
+}
 
 
 /* ****************************** */
@@ -495,6 +631,18 @@ void keypress(unsigned char key, int x, int y) {
       break;
     case 5:
       initialize_points_triangle(points, NPOINTS);
+      break;
+    case 6:
+      initialize_points_1(points, NPOINTS);
+      break;
+    case 7:
+      initialize_points_2(points, NPOINTS);
+      break;
+    case 8:
+      initialize_points_two_vertical(points, NPOINTS);
+      break;
+    case 9:
+      initialize_points_vertical_line(points, NPOINTS);
       break;
     } //switch 
     //we changed the points, so we need to recompute the hull
