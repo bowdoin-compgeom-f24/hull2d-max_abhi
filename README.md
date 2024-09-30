@@ -1,9 +1,6 @@
-# hull2d-startup
+# Max and Abhi
 
+Finds all the points on the convex hull given a set of points using Graham Scan.
 
-2d convex hull startup code.  
-
-Should compile as is.
-
-To do: Fill in the graham_scan function and create some initializers. 
+To run: Compile using the makefile, then run the executable with the number of points passed in on the command line. A graphic should appear with the set of points and the convex hull drawn. The user can press "i" to switch between different sets of points. 
  
