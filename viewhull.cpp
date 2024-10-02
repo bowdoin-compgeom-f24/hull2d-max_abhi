@@ -83,7 +83,7 @@ const int WINDOWSIZE = 500;
    user can cycle through them by pressing 'i'. Check out the display()
    function.
 */
-int NB_INIT_CHOICES = 10; 
+int NB_INIT_CHOICES = 11; 
 int  POINT_INIT_MODE = 0; //the first inititalizer
 
 
@@ -322,6 +322,25 @@ void initialize_points_vertical_line(vector<point2d>&pts, int n){
   for (int i=0; i<n; i++) {
     p.y = (int)(.3*WINDOWSIZE)/2 + random() % ((int)(.7*WINDOWSIZE)); 
     p.x =  WINDOWSIZE/2; 
+    pts.push_back(p); 
+  }
+}
+
+/* ****************************** */
+/* Initializes pts with n points on a heart. The points are in the
+   range [0, WINSIZE] x [0, WINSIZE].
+   Made by Leah
+*/ 
+void initialize_points_heart(vector<point2d>& pts, int n) {
+  printf("\ninitialize points heart\n"); 
+  pts.clear();
+  double step = WINDOWSIZE/n;
+
+  point2d p;
+  for (int i = 0; i < n; i++) {
+    float t = step*i;
+    p.x = (16*pow(sin(t), 3))*WINDOWSIZE/50 + WINDOWSIZE/2;
+    p.y = (13*cos(t) - 5*cos(2*t) - 2*cos(3*t) - cos(4*t))*WINDOWSIZE/50 + WINDOWSIZE/2;
     pts.push_back(p); 
   }
 }
@@ -643,6 +662,9 @@ void keypress(unsigned char key, int x, int y) {
       break;
     case 9:
       initialize_points_vertical_line(points, NPOINTS);
+      break;
+    case 10:
+      initialize_points_heart(points, NPOINTS);
       break;
     } //switch 
     //we changed the points, so we need to recompute the hull
